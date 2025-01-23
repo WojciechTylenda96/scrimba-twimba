@@ -10,30 +10,37 @@ tweetBtn.addEventListener('click', function(){
 
 function getFeedHtml(){
    let feedHtml = ""
-   for (let post of tweetsData){
+   tweetsData.forEach(function(tweet){
       feedHtml += `
          <div class="tweet">
             <div class="tweet-inner">
-               <img src="${post.profilePic}" class="profile-pic">
+               <img src="${tweet.profilePic}" class="profile-pic">
                <div>
-                     <p class="handle">${post.handle}</p>
-                     <p class="tweet-text">${post.tweetText}</p>
+                     <p class="handle">${tweet.handle}</p>
+                     <p class="tweet-text">${tweet.tweetText}</p>
                      <div class="tweet-details">
                         <span class="tweet-detail">
-                           ${post.replies}
+                           <i class="fa-regular fa-comment-dots"></i>
+                           ${tweet.replies.length}
                         </span>
                         <span class="tweet-detail">
-                           ${post.likes}
+                           <i class="fa-solid fa-heart"></i>
+                           ${tweet.likes}
                         </span>
                         <span class="tweet-detail">
-                           ${post.retweets}
+                           <i class="fa-solid fa-retweet"></i>
+                           ${tweet.retweets}
                         </span>
                      </div>   
                </div>            
             </div>
          </div>`
-   }
-   console.log(feedHtml)
+   })
+   return feedHtml
 };
 
-getFeedHtml();
+function render(){
+   document.getElementById("feed").innerHTML = getFeedHtml()
+};
+
+render();
