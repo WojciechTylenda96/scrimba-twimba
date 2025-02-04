@@ -15,6 +15,9 @@ document.addEventListener('click', function(e){
    else if(e.target.id === "tweet-btn"){
       handleTweetBtnClick()
    }
+   else if(e.target.dataset.post){
+      handlePostReplyClick(e.target.dataset.post)
+   }
 });
 
 function handleLikeClick(tweetId){
@@ -49,6 +52,7 @@ function handleRetweetClick(tweetId){
 
 function handleReplyClick(replyId){
    document.getElementById(`replies-${replyId}`).classList.toggle("hidden")
+   document.getElementById(`reply-${tweet.uuid}`).classList.toggle("hidden")
 }
 
 function handleTweetBtnClick(){
@@ -69,6 +73,11 @@ function handleTweetBtnClick(){
       render()
       tweetInput.value = ""
    }
+}
+
+function handlePostReplyClick(postId){
+   console.log(postId)
+   console.log(document.getElementById(`reply-${postId}`).value)
 }
 
 function getFeedHtml(){
@@ -128,8 +137,13 @@ function getFeedHtml(){
                      </div>   
                </div>            
             </div>
-            <div class ="hidden "id="replies-${tweet.uuid}">
+            <div class ="hidden" id="replies-${tweet.uuid}">
                ${repliesHtml}
+               <div class="reply" >
+               <img src="images/scrimbalogo.png" class="profile-pic" alt="">
+               <textarea id="reply-${tweet.uuid}" placeholder="Post your reply" class="reply-textarea"></textarea>
+            </div>
+            <button class="btn-post" data-post="${tweet.uuid}">Post</button>
             </div>
          </div>`
    })
@@ -141,3 +155,10 @@ function render(){
 };
 
 render();
+
+
+// 1.Dokończyć dodawanie odpowiedzi do posta
+
+// 2.Zapisywanie tweetów lików itp do localStorage albo baza danych
+
+// 3.Usuwanie własnych postów
