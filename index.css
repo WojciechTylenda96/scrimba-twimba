@@ -118,6 +118,25 @@ button{
     line-height: 20px;
 }
 
+/* reply to tweer */
+
+.reply {
+    display: flex;
+    align-items: start;
+    margin-top: 20px;
+}
+
+.reply-textarea{
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+.btn-post {
+    display: block;
+    font-size: 12px;
+    
+}
+
 /* images */
 
 .profile-pic{
