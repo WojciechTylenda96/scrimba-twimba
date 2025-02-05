@@ -52,7 +52,7 @@ function handleRetweetClick(tweetId){
 
 function handleReplyClick(replyId){
    document.getElementById(`replies-${replyId}`).classList.toggle("hidden")
-   document.getElementById(`reply-${tweet.uuid}`).classList.toggle("hidden")
+   // document.getElementById(`reply-${replyId}`).classList.toggle("hidden")
 }
 
 function handleTweetBtnClick(){
@@ -76,8 +76,24 @@ function handleTweetBtnClick(){
 }
 
 function handlePostReplyClick(postId){
-   console.log(postId)
-   console.log(document.getElementById(`reply-${postId}`).value)
+   // console.log(postId)
+   // console.log(document.getElementById(`reply-${postId}`).value)
+   const reply = document.getElementById(`reply-${postId}`).value
+   const targetTweetObj = tweetsData.filter(function(tweet){
+      return tweet.uuid === postId
+   })[0]
+
+   targetTweetObj.replies.push(
+      {
+         handle: `@Scrimba`,
+         profilePic: `images/scrimbalogo.png`,
+         tweetText: `${reply}`,
+      },
+   )
+   render()
+   document.getElementById(`replies-${postId}`).classList.toggle("hidden")
+   
+   console.log(targetTweetObj)
 }
 
 function getFeedHtml(){
