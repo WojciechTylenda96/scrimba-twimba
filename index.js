@@ -166,7 +166,33 @@ function getFeedHtml() {
 // Funkcja renderująca feed na stronie
 function render() {
   document.getElementById("feed").innerHTML = getFeedHtml();
+  
+  // Po renderowaniu danych przypisujemy event listeners do ikonek
+  addEventListenersToButtons();
 }
+
+// Funkcja przypisująca event listeners do przycisków like i retweet
+function addEventListenersToButtons() {
+  const likeButtons = document.querySelectorAll('.fa-heart');
+  const retweetButtons = document.querySelectorAll('.fa-retweet');
+
+  // Przypisanie kliknięcia do przycisku like
+  likeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const tweetId = button.getAttribute('data-like');
+      handleLikeClick(tweetId);
+    });
+  });
+
+  // Przypisanie kliknięcia do przycisku retweet
+  retweetButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const tweetId = button.getAttribute('data-retweet');
+      handleRetweetClick(tweetId);
+    });
+  });
+}
+
 
 // Nasłuchujemy na kliknięcia w przyciski (polubienie, retweetowanie, odpowiedzi, dodawanie tweeta)
 document.addEventListener("click", function (e) {
