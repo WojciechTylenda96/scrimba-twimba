@@ -3,6 +3,7 @@ import { tweetsData } from "./data.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid"
 
 
+
 document.addEventListener('click', function(e){
    if(e.target.dataset.like){
       handleLikeClick(e.target.dataset.like)
@@ -19,14 +20,26 @@ document.addEventListener('click', function(e){
    else if(e.target.dataset.post){
       handlePostReplyClick(e.target.dataset.post)
    }
+   else if(e.target.dataset.delete){
+      handleDeletePostClick(e.target.dataset.delete)
+   }
 });
 
-function setLocalStorage(){
-  localStorage.setItem("tweets", JSON.stringify(tweetsLocalStorage));
-}
-// setLocalStorage();
-
 let tweetsLocalStorage = JSON.parse(localStorage.getItem("tweets"))
+
+function setLocalStorage(){
+   if(tweetsLocalStorage){
+      localStorage.setItem("tweets", JSON.stringify(tweetsLocalStorage));
+   } 
+   else {
+      localStorage.setItem("tweets", JSON.stringify(tweetsData));
+   }
+   
+}
+
+window.onload = setLocalStorage()
+
+
 
 function handleLikeClick(tweetId){
    const targetTweetObj = tweetsLocalStorage.filter(function(tweet){
@@ -77,6 +90,7 @@ function handleTweetBtnClick(){
          replies: [],
          isLiked: false,
          isRetweeted: false,
+         isDeleteAble: true,
          uuid: uuidv4()
      })
       render()
@@ -103,6 +117,20 @@ function handlePostReplyClick(postId){
       setLocalStorage()
       document.getElementById(`replies-${postId}`).classList.toggle("hidden")
    }
+}
+
+function handleDeletePostClick(deletePostId){
+   const index = tweetsLocalStorage.findIndex(tweet => tweet.uuid === deletePostId)
+   
+   if(index !== -1){
+      tweetsLocalStorage.splice(index,1);
+      console.log("Tweet deleted")
+   }
+   else{
+      console.log("Tweet not found")
+   }
+   setLocalStorage()
+   render()
 }
 
 function getFeedHtml(){
@@ -139,6 +167,12 @@ function getFeedHtml(){
          }
       };
 
+      let deleteBtn = '';
+
+      if(tweet.isDeleteAble){
+         deleteBtn = `<button class="btn-delete" data-delete="${tweet.uuid}">Delete</button>`
+      }
+
       feedHtml += `
          <div class="tweet">
             <div class="tweet-inner">
@@ -160,6 +194,7 @@ function getFeedHtml(){
                            ${tweet.retweets}
                         </span>
                      </div>   
+                     ${deleteBtn}
                </div>            
             </div>
             <div class ="hidden" id="replies-${tweet.uuid}">
@@ -183,8 +218,10 @@ render();
 // localStorage.clear();
 
 console.log(tweetsLocalStorage)
-// 1.Dokończyć dodawanie odpowiedzi do posta
 
-// 2.Zapisywanie tweetów lików itp do localStorage albo baza danych
+
+// 1.Dokończyć dodawanie odpowiedzi do posta X
+
+// 2.Zapisywanie tweetów lików itp do localStorage albo baza danych X
 
 // 3.Usuwanie własnych postów

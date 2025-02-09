@@ -71,6 +71,17 @@ button{
     font-weight: 600;
 }
 
+.btn-delete {
+    width: fit-content;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 150px;
+}
+
+.btn-delete:hover{
+    background-color: rgb(255, 31, 31);
+}
+
 /* tweet */
 
 .tweet{
