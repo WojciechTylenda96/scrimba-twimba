@@ -23,6 +23,9 @@ document.addEventListener('click', function(e){
    else if(e.target.dataset.delete){
       handleDeletePostClick(e.target.dataset.delete)
    }
+   else if(e.target.dataset.deletereply){
+      handleDeleteReplyClick(e.target.dataset.deletereply)
+   }
 });
 
 let tweetsLocalStorage = JSON.parse(localStorage.getItem("tweets"))
@@ -90,7 +93,7 @@ function handleTweetBtnClick(){
          replies: [],
          isLiked: false,
          isRetweeted: false,
-         isDeleteAble: true,
+         isPostDeleteAble: true,
          uuid: uuidv4()
      })
       render()
@@ -111,6 +114,7 @@ function handlePostReplyClick(postId){
             handle: `@Scrimba`,
             profilePic: `images/scrimbalogo.png`,
             tweetText: `${reply}`,
+            isReplyDeleteAble: true
          },
       )
       render()
@@ -119,8 +123,8 @@ function handlePostReplyClick(postId){
    }
 }
 
-function handleDeletePostClick(deletePostId){
-   const index = tweetsLocalStorage.findIndex(tweet => tweet.uuid === deletePostId)
+function handleDeletePostClick(postId){
+   const index = tweetsLocalStorage.findIndex(tweet => tweet.uuid === postId)
    
    if(index !== -1){
       tweetsLocalStorage.splice(index,1);
@@ -128,6 +132,23 @@ function handleDeletePostClick(deletePostId){
    }
    else{
       console.log("Tweet not found")
+   }
+   setLocalStorage()
+   render()
+}
+
+function handleDeleteReplyClick(postId){
+   const targetTweetObj = tweetsLocalStorage.filter(function(tweet){
+      return tweet.uuid === postId
+   })[0]
+
+   const replyIndex = targetTweetObj.replies.findIndex(reply => reply.isReplyDeleteAble === true)
+   if(replyIndex !== 1){
+      targetTweetObj.replies.splice(replyIndex, 1)
+      console.log("Reply deleted")
+   }
+   else{
+      console.log("Reply not found")
    }
    setLocalStorage()
    render()
@@ -149,10 +170,16 @@ function getFeedHtml(){
          retweetIconClass = "retweeted"
       };
 
-      let repliesHtml = '';
+      let repliesHtml = "";
 
       if(tweet.replies.length > 0){
          for(let reply of tweet.replies){
+            
+            let deleteReplyBtn = ""
+
+            if(reply.isReplyDeleteAble === true){
+               deleteReplyBtn = `<button class="btn-delete" data-deletereply="${tweet.uuid}">Delete</button>`
+            }
             repliesHtml += 
             `
             <div class="tweet-reply">
@@ -163,14 +190,15 @@ function getFeedHtml(){
                            <p class="tweet-text">${reply.tweetText}</p>
                         </div>
                   </div>
+                  ${deleteReplyBtn}
             </div>`
          }
       };
 
-      let deleteBtn = '';
+      let deletePostBtn = "";
 
-      if(tweet.isDeleteAble){
-         deleteBtn = `<button class="btn-delete" data-delete="${tweet.uuid}">Delete</button>`
+      if(tweet.isPostDeleteAble){
+         deletePostBtn = `<button class="btn-delete" data-delete="${tweet.uuid}">Delete</button>`
       }
 
       feedHtml += `
@@ -194,7 +222,7 @@ function getFeedHtml(){
                            ${tweet.retweets}
                         </span>
                      </div>   
-                     ${deleteBtn}
+                     ${deletePostBtn}
                </div>            
             </div>
             <div class ="hidden" id="replies-${tweet.uuid}">

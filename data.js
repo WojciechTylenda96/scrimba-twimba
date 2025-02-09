@@ -9,7 +9,7 @@ export const tweetsData = [
         replies: [],
         isLiked: false,
         isRetweeted: false,
-        isDeleteAble: false,
+        isPostDeleteAble: false,
         uuid: '4b161eee-c0f5-4545-9c4b-8562944223ee',
     },    
     {
@@ -23,16 +23,18 @@ export const tweetsData = [
                 handle: `@TomCruise ✅`,
                 profilePic: `images/tcruise.png`,
                 tweetText: `Yes! Sign me up! 😎🛩`,
+                isReplyDeleteAble: false
             },
                   {
                 handle: `@ChuckNorris ✅`,
                 profilePic: `images/chucknorris.jpeg`,
                 tweetText: `I went last year😴`,
+                isReplyDeleteAble: false
             },
         ],
         isLiked: false,
         isRetweeted: false,
-        isDeleteAble: false,
+        isPostDeleteAble: false,
         uuid: '3c23454ee-c0f5-9g9g-9c4b-77835tgs2',
     },
         {
@@ -46,16 +48,18 @@ export const tweetsData = [
                 handle: `@StackOverflower ☣️`,
                 profilePic: `images/overflow.png`,
                 tweetText: `No. Onviosuly not. Go get a job in McDonald's.`,
+                isReplyDeleteAble: false
             },
             {
                 handle: `@YummyCoder64`,
                 profilePic: `images/love.png`,
                 tweetText: `You are wonderful just as you are! ❤️`,
+                isReplyDeleteAble: false
             },
         ],
         isLiked: false,
         isRetweeted: false,
-        isDeleteAble: false,
+        isPostDeleteAble: false,
         uuid: '8hy671sff-c0f5-4545-9c4b-1237gyys45',
     },     
 ]
