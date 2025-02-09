@@ -40,7 +40,6 @@ function setLocalStorage(){
    
 }
 
-window.onload = setLocalStorage()
 
 
 
@@ -242,6 +241,7 @@ function render(){
    document.getElementById("feed").innerHTML = getFeedHtml()
 };
 
+setLocalStorage()
 render();
 // localStorage.clear();
 
