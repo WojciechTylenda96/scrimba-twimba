@@ -21,8 +21,15 @@ document.addEventListener('click', function(e){
    }
 });
 
+function setLocalStorage(){
+  localStorage.setItem("tweets", JSON.stringify(tweetsLocalStorage));
+}
+// setLocalStorage();
+
+let tweetsLocalStorage = JSON.parse(localStorage.getItem("tweets"))
+
 function handleLikeClick(tweetId){
-   const targetTweetObj = tweetsData.filter(function(tweet){
+   const targetTweetObj = tweetsLocalStorage.filter(function(tweet){
       return tweet.uuid === tweetId
    })[0]
    
@@ -33,11 +40,12 @@ function handleLikeClick(tweetId){
       targetTweetObj.likes--
    }
    targetTweetObj.isLiked = !targetTweetObj.isLiked
+   setLocalStorage()
    render()
 };
 
 function handleRetweetClick(tweetId){
-   const targetTweetObj = tweetsData.filter(function(tweet){
+   const targetTweetObj = tweetsLocalStorage.filter(function(tweet){
       return tweet.uuid === tweetId
    })[0]
 
@@ -48,6 +56,7 @@ function handleRetweetClick(tweetId){
       targetTweetObj.retweets --
    }
    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+   setLocalStorage()
    render()
 };
 
@@ -59,7 +68,7 @@ function handleTweetBtnClick(){
    const tweetInput = document.getElementById('tweet-input')
 
    if(tweetInput.value){
-      tweetsData.unshift({
+      tweetsLocalStorage.unshift({
          handle: `@Scrimba`,
          profilePic: `images/scrimbalogo.png`,
          likes: 0,
@@ -71,13 +80,14 @@ function handleTweetBtnClick(){
          uuid: uuidv4()
      })
       render()
+      setLocalStorage()
       tweetInput.value = ""
    }
 }
 
 function handlePostReplyClick(postId){
    const reply = document.getElementById(`reply-${postId}`).value
-   const targetTweetObj = tweetsData.filter(function(tweet){
+   const targetTweetObj = tweetsLocalStorage.filter(function(tweet){
       return tweet.uuid === postId
    })[0]
    
@@ -90,13 +100,14 @@ function handlePostReplyClick(postId){
          },
       )
       render()
+      setLocalStorage()
       document.getElementById(`replies-${postId}`).classList.toggle("hidden")
    }
 }
 
 function getFeedHtml(){
    let feedHtml = ""
-   tweetsData.forEach(function(tweet){
+   tweetsLocalStorage.forEach(function(tweet){
 
       let likeIconClass = "";
 
@@ -169,8 +180,9 @@ function render(){
 };
 
 render();
+// localStorage.clear();
 
-
+console.log(tweetsLocalStorage)
 // 1.Dokończyć dodawanie odpowiedzi do posta
 
 // 2.Zapisywanie tweetów lików itp do localStorage albo baza danych
