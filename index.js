@@ -157,28 +157,16 @@ function getFeedHtml(){
    let feedHtml = ""
    tweetsLocalStorage.forEach(function(tweet){
 
-      let likeIconClass = "";
-
-      if(tweet.isLiked){
-         likeIconClass = "liked"
-      };
-
-      let retweetIconClass = "";
-
-      if(tweet.isRetweeted){
-         retweetIconClass = "retweeted"
-      };
+      const likeIconClass = tweet.isLiked ? "liked" : "";
+      const retweetIconClass = tweet.isRetweeted ? "retweeted" : "";
 
       let repliesHtml = "";
 
       if(tweet.replies.length > 0){
          for(let reply of tweet.replies){
             
-            let deleteReplyBtn = ""
-
-            if(reply.isReplyDeleteAble === true){
-               deleteReplyBtn = `<button class="btn-delete" data-deletereply="${tweet.uuid}">Delete</button>`
-            }
+            const deleteReplyBtn = reply.isReplyDeleteAble ? `<button class="btn-delete" data-deletereply="${tweet.uuid}">Delete</button>` : ""
+            
             repliesHtml += 
             `
             <div class="tweet-reply">
@@ -194,11 +182,7 @@ function getFeedHtml(){
          }
       };
 
-      let deletePostBtn = "";
-
-      if(tweet.isPostDeleteAble){
-         deletePostBtn = `<button class="btn-delete" data-delete="${tweet.uuid}">Delete</button>`
-      }
+      const deletePostBtn = tweet.isPostDeleteAble ? `<button class="btn-delete" data-delete="${tweet.uuid}">Delete</button>` : "";
 
       feedHtml += `
          <div class="tweet">
@@ -247,9 +231,3 @@ render();
 
 console.log(tweetsLocalStorage)
 
-
-// 1.Dokończyć dodawanie odpowiedzi do posta X
-
-// 2.Zapisywanie tweetów lików itp do localStorage albo baza danych X
-
-// 3.Usuwanie własnych postów
